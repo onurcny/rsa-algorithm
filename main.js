@@ -1,14 +1,14 @@
 const { createPublicAndPrivateKey, publicEncrypt, privateDecrypt, privateEncrypt, publicDecrypt } = require("./rsa");
 
-let message = "Merhaba arkadaşlar!"
+let message = "Hello World!"
 const {publicKey, privateKey, n} = createPublicAndPrivateKey()
 
-console.log(publicKey, privateKey, n);
+let private_en = publicEncrypt(message, privateKey, n)
+let public_de = privateDecrypt(private_en, publicKey, n)
+let public_en = privateEncrypt(message, privateKey, n)
+let private_de = publicDecrypt(public_en, publicKey, n)
 
-// let en = publicEncrypt(message, privateKey, n)
-// let de = privateDecrypt(en, publicKey, n)
-let en = privateEncrypt(message, privateKey, n)
-let de = publicDecrypt(en, publicKey, n)
-
-console.log("en", en)
-console.log("de", de)
+console.log("\nprivate encrypted:", private_en)
+console.log("\npublic decrypted:", public_de)
+console.log("\npublic encrypted:", public_en)
+console.log("\nprivate decrypted:", private_de)
