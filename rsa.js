@@ -25,6 +25,22 @@ const publicEncrypt = (message, publicKey, n) => {
     return res
 }
 
+const publicDecrypt = (cipher, privateKey, n) => {
+    let res = ""
+    for(c of cipher){
+        res += charConversion(c, privateKey, n)
+    }
+    return res
+}
+
+const privateEncrypt = (message, publicKey, n) => {
+    res = ""
+    for(c of message){
+        res += charConversion(c, publicKey, n)
+    }
+    return res
+}
+
 const privateDecrypt = (cipher, privateKey, n) => {
     let res = ""
     for(c of cipher){
@@ -45,5 +61,7 @@ const charConversion = (c, key, n) => {
 module.exports = {
     createPublicAndPrivateKey,
     publicEncrypt,
-    privateDecrypt
+    publicDecrypt,
+    privateEncrypt,
+    privateDecrypt,
 }
