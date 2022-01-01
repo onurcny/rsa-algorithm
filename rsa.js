@@ -8,7 +8,7 @@ const createPublicAndPrivateKey = () => {
     }while(p == q)
     let n = p * q
     let phiN = (p-1)*(q-1)
-    let e = calcE(phiN)
+    let e = calcE(phiN, n)
     let d = calcD(phiN, e)
     return {
         publicKey: e,
@@ -17,8 +17,33 @@ const createPublicAndPrivateKey = () => {
     }
 }
 
-const {publicKey, privateKey} = createPublicAndPrivateKey()
-console.log(publicKey, privateKey);
+const publicEncrypt = (message, publicKey, n) => {
+    res = ""
+    for(c of message){
+        res += charConversion(c, publicKey, n)
+    }
+    return res
+}
 
+const privateDecrypt = (cipher, privateKey, n) => {
+    let res = ""
+    for(c of cipher){
+        res += charConversion(c, privateKey, n)
+    }
+    return res
+}
 
+const charConversion = (c, key, n) => {
+    c = String(c).charCodeAt()
+    let convertedChar = 1
+    for(let i = 1; i <= key; i++){
+        convertedChar = (c * convertedChar) % n
+    }
+    return String.fromCharCode(convertedChar)
+}
 
+module.exports = {
+    createPublicAndPrivateKey,
+    publicEncrypt,
+    privateDecrypt
+}

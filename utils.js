@@ -13,7 +13,26 @@ const isPrime = (n) => {
     return res
 }
 
-const getRandomPrimeNumber = (min = 100, max = 1000) => {
+const getFactors = (num) => {
+    let factors = []
+    for(let i = 2; i < Math.ceil(num / 2); i++){
+        if(num % i == 0)
+            factors.push(i)
+    }
+    return factors
+}
+
+const coPrime = (a, b) => {
+    let aFactors = getFactors(a)
+    let bFactors = getFactors(b)
+    for(f of aFactors){
+        if(bFactors.indexOf(f) != -1)
+            return false
+    }
+    return true
+}
+
+const getRandomPrimeNumber = (min = 50, max = 100) => {
     let prime
     do{
         prime = getRndInteger(min, max)
@@ -21,21 +40,23 @@ const getRandomPrimeNumber = (min = 100, max = 1000) => {
     return prime
 }
 
-const calcE = (phiN) => {
+const calcE = (phiN, n) => {
     let e
     do {
         e = getRndInteger(2, phiN)
-    } while (!isPrime(e))
+    } while (!coPrime(e, n) || !coPrime(phiN, e))
     return e
 }
 
 const calcD = (phiN, e) => {
-    for(let i = 1; i < phiN; i++){
-        if(((phiN * i + 1) % e) == 0){
-            return ((phiN * i) + 1) / e
-        }
+    let k = 1
+    while (true)
+    {
+        let d = ((k * phiN) + 1) / e
+        if (Number.isInteger(d))
+            return Number(d)
+        k++;
     }
-    return 0
 }
 
 module.exports = {
